@@ -18,9 +18,9 @@ int count_file_lines(FILE *file)
   return b;
 }
 
-/* Get String from a file and turn it into Int
-Then, add the numbers into a array and returns this array */
-void get_maximum(void) 
+/* Get numbers from a file and
+stores then in a matrix */
+void get_max_resources(void) 
 {
   FILE *costumers = fopen("customer.txt", "r");
   error_open_file(costumers);
@@ -28,19 +28,58 @@ void get_maximum(void)
   int maximum[number_of_costumers][number_of_resources];
   int aux;
 
-  for(int i = 0; i < number_of_resources; i++) {
-    for(int j = 0; j < number_of_costumers; j++) {
-      fscanf(costumers, "%d", &aux);
+  for(int i = 0; i < number_of_costumers; i++) {
+    for(int j = 0; j < number_of_resources; j++) {
+      fscanf(costumers, "%d,", &aux);
       maximum[i][j] = aux;
     }
   }
 
-  for(int i = 0; i < number_of_resources; i++) {
-    for(int j = 0; j < number_of_costumers; j++) {
-      printf("%d  ", maximum[i][j]);
+  FILE *test = fopen("test.txt", "w");
+  for(int i = 0; i < number_of_costumers; i++) {
+    fprintf(test, "\nCliente %d\n", i);
+    for(int j = 0; j < number_of_resources; j++) {
+      fprintf(test, "%d  ", maximum[i][j]);
     }
-    printf("\n");
   }
+  fclose(test);
 
   fclose(costumers);
+
+  read_commands();
+}
+
+/* Reads lines in the file "commands.txt" */
+void read_commands(void)
+{
+  char aux[20];
+  char teste[20];
+  int a = 0;
+
+  FILE *commands = fopen("commands.txt", "r");
+  //int c = count_file_lines(commands);
+  fgets(aux, 20, commands);
+
+  printf("aux: %s\n", aux);
+
+  char *token = strtok(aux, " ");
+  //printf("%c\n", token[1]); //printing the token
+  verify_command(token);
+  
+  fclose(commands);
+}
+
+void verify_command(char* arr)
+{
+  if(arr[0] == '*') {
+    printf("asterisco\n");
+  }
+  else if(arr[0] == 'R') {
+    if(arr[1] == 'Q') {
+      printf("requesting resources\n");
+    }
+    else if(arr[1] == 'L') {
+      printf("releasing resources\n");
+    }
+  }
 }

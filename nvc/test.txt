@@ -1,0 +1,13 @@
+
+Cliente 0
+7  5  3  
+Cliente 1
+3  2  2  
+Cliente 2
+9  0  2  
+Cliente 3
+2  2  2  
+Cliente 4
+4  3  3  
+Cliente 5
+5  1  4  
