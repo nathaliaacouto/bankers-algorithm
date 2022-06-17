@@ -26,12 +26,12 @@ void get_max_resources(void)
   error_open_file(costumers);
 
   int maximum[number_of_costumers][number_of_resources];
-  int aux;
+  int read_com;
 
   for(int i = 0; i < number_of_costumers; i++) {
     for(int j = 0; j < number_of_resources; j++) {
-      fscanf(costumers, "%d,", &aux);
-      maximum[i][j] = aux;
+      fscanf(costumers, "%d,", &read_com);
+      maximum[i][j] = read_com;
     }
   }
 
@@ -45,28 +45,21 @@ void get_max_resources(void)
   fclose(test);
 
   fclose(costumers);
-
-  read_commands();
 }
 
 /* Reads lines in the file "commands.txt" */
-void read_commands(void)
+void read_commands(int count)
 {
-  char aux[20];
-  char teste[20];
+  FILE *com = fopen("commands.txt", "r");
   int a = 0;
+  while(a != count) {
+    fgets(read_com, 20, com);
+    printf("\nread_com: %s", read_com);
+    verify_command(read_com);
+    a++;
+  }
 
-  FILE *commands = fopen("commands.txt", "r");
-  //int c = count_file_lines(commands);
-  fgets(aux, 20, commands);
-
-  printf("aux: %s\n", aux);
-
-  char *token = strtok(aux, " ");
-  //printf("%c\n", token[1]); //printing the token
-  verify_command(token);
-  
-  fclose(commands);
+  fclose(com);
 }
 
 void verify_command(char* arr)
@@ -80,6 +73,24 @@ void verify_command(char* arr)
     }
     else if(arr[1] == 'L') {
       printf("releasing resources\n");
+    }
+  }
+}
+
+void request(char* r, int* av)
+{
+  int a = 3;
+  int client = r[a] - '0';
+  int req[number_of_resources];
+
+  for(int i = 0; i < number_of_resources; i++) {
+    a = a + 2; //jump space between numbers
+    req[i] = r[a] - '0';
+  }
+
+  for(int i = 0; i < number_of_resources; i++) {
+    if(req[i] < av[i]) {
+      printf("ok");
     }
   }
 }

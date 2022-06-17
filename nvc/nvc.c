@@ -5,7 +5,7 @@ int main(int argc, char *argv[ ])
 {  
   //Get the number of resources
   number_of_resources = argc-1;
-
+  
   int available[number_of_resources];
 
   //get number of available resources from command line
@@ -15,12 +15,16 @@ int main(int argc, char *argv[ ])
   
   FILE *costumers = fopen("customer.txt", "r");
   error_open_file(costumers);
-
   number_of_costumers = count_file_lines(costumers);
-  
   fclose(costumers);
   
   get_max_resources();
+
+  FILE *commands = fopen("commands.txt", "r");
+  int b = count_file_lines(commands);
+  read_commands(b);
+  
+  int allocation[number_of_costumers][number_of_resources];
 
   return 0;
 }
