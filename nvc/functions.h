@@ -17,7 +17,6 @@ int number_of_costumers;
 int *available; //number of resources available
 
 int number_of_commands;
-int count_commands;
 //int commands_arr[100]; //store commands from commands.txt
 char read_com[100];
 int next_command;

@@ -31,6 +31,7 @@ int main(int argc, char *argv[ ])
   FILE *costumers = fopen("customer.txt", "r");
   error_open_file(costumers);
   number_of_costumers = count_file_lines(costumers);
+  fclose(costumers);
   
   //Get number of commands from file lines
   FILE *commands = fopen("commands.txt", "r");
@@ -48,15 +49,14 @@ int main(int argc, char *argv[ ])
   /* The number of maximum resources for each 
   costumer is given in the costumer.txt file */
   int read_costumer;
-
+  FILE *cos = fopen("customer.txt", "r");
   for(int i = 0; i < number_of_costumers; i++) {
     for(int j = 0; j < number_of_resources; j++) {
-      fscanf(costumers, "%d,", &read_costumer);
-      maximum[i][j] = read_costumer; //OK - tá pegando os valores direito
+      fscanf(cos, "%d,", &read_costumer);
+      maximum[i][j] = read_costumer; //ERRO: PEGANDO OS VALORES TUDO 0
     }
   }
-
-  fclose(costumers);
+  fclose(cos);
   /* Get Max resources - End */
   
   for(int i = 0; i < number_of_costumers; i++) {
@@ -67,46 +67,85 @@ int main(int argc, char *argv[ ])
   }
   /* Initialize Matrices and Variables - End */
 
+  /* Read Commands - Begin */
   FILE *result = fopen("result.txt", "w");
-  //char *c = read_commands();
   FILE *com = fopen("commands.txt", "r");
-  int x = 0;
+  int count_commands = 0;
   char commands_arr[100];
-  while(x != number_of_commands) {
-    fgets(commands_arr, 20, com);
-    printf("%s", commands_arr);
-    int verify = verify_command(commands_arr);
-    //printf("%d ", verify);
-    if(verify == REQUEST_RESOURCES) {
-      int index = 3;
-      int client = commands_arr[index] - '0'; //cliente sempre o mesmo
-      int req[number_of_resources+1];
+  while(count_commands != number_of_commands) { 
+    fgets(commands_arr, 20, com); 
+    /* Read Commands - End */
+
+    /* Do Commands - Begin */
+    int exit = 0;
+    int verify = verify_command(commands_arr); 
+    if(verify == REQUEST_RESOURCES) { 
+      int index = 3; 
+      int client = commands_arr[index] - '0'; 
+      int req[number_of_resources+1]; 
       req[0] = client;
-      for(int i = 1; i < number_of_resources; i++) {
+      for(int i = 1; i < number_of_resources + 1; i++) {
         index = index + 2; //jump space between numbers
-        req[i] = commands_arr[index] - '0';
+        req[i] = commands_arr[index] - '0'; 
       }
-      for(int j = 0; j < number_of_resources; j++) {
-        if(req[j] >= need[client][j]) {
-          fprintf(result, "The customer %d request %d %d %d was denied because exceed its maximum allocation\n", req[0], req[1], req[2], req[3]);
-          break;
+
+      int c = 0;
+      for(int j = 1; j < number_of_resources + 1; j++) {
+        if(req[j] >= need[client][c]) { //preciso verificar todos os requisitos
+          fprintf(result, "The costumer %d request ", req[0]);
+          for(int a = 0; a < number_of_resources; a++) {
+            fprintf(result, "%d ", req[a]);
+          }
+          fprintf(result, "was denied because exceed its maximum allocation\n");
+          exit = 1;
+          break; 
         }
-        if(req[j] <= available[j]) {
-          available[j] = available[j] - req[j];
-          allocation[client][j] = allocation[client][j] + req[j];
-          need[client][j] = need[client][j] - req[j]; 
-          //precisa verificar se o estado novo é seguro, caso não, volta
+        c++;
+      }
+      
+      if(exit != 1) {
+        c = 0;
+        int count_av = 0;
+        for(int j = 1; j < number_of_resources + 1; j++) {
+          if(req[j] <= available[c]) {
+            count_av++;
+            //precisa verificar se o estado novo é seguro, caso não, volta
+          }
+          c++;
         }
-        else if(req[j] > available[j]) {
-          fprintf(result, "The customer %d request %d %d %d was denied because exceed the available resources\n", req[0], req[1], req[2], req[3]);
+        c = 0;
+        if(count_av == number_of_resources) {
+          for(int j = 1; j < number_of_resources + 1; j++) {
+            available[c] = available[c] - req[j]; //ok
+            allocation[client][c] = allocation[client][c] + req[j];
+            need[client][c] = need[client][c] - req[j]; 
+            c++;
+          }
+          fprintf(result, "Allocate to customer %d the resources %d %d %d\n", req[0], req[1], req[2], req[3]);
         }
       }
+
+      c = 0;
+        /*
+        else if(req[j] > available[c]) {
+          fprintf(result, "The resources ");
+          for(int a = 0; a < number_of_resources; a++) {
+            fprintf(result, "%d ", available[a]);
+          }
+          fprintf(result, "are not enough to customer %d request ", req[0]);
+          for(int a = 0; a < number_of_resources; a++) {
+            fprintf(result, "%d ", req[a]);
+          }
+        }
+        */
+        c++;
+        exit = 0;
     }
     else if(verify == RELEASE_RESOURCES) {
       //
     }
     else if(verify == SHOW_VALUES) {
-      fprintf(result, "MAXIMUM | ALLOCATION | NEED\n");
+      fprintf(result, "MAXIMUM |ALLOCATION  |NEED\n");
       for(int i = 0; i < number_of_costumers; i++) {
         for(int j = 0; j < number_of_resources; j++) {
           fprintf(result, "%d ", maximum[i][j]);
@@ -128,12 +167,11 @@ int main(int argc, char *argv[ ])
       fprintf(result, "\n");
     }
     else {
-      //printf("\nCommand %d not known, it will be skipped\n", x);
+      printf("\nCommand %d not known, it will be skipped\n", count_commands);
     }
-    x++;
+    /* Do Commands - End */
+    count_commands++;
   }
-  count_commands = 0;
-
 
   /* Safe State - Begin */
   //n is the number of threads in the system and, m is the number of resource types
@@ -177,6 +215,7 @@ int main(int argc, char *argv[ ])
   free(available);
   fclose(result);
   fclose(commands);
+  fclose(com);
 
   return 0;
 }
