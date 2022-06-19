@@ -1,0 +1,17 @@
+The customer 0 request 0 2 22048 was denied because exceed its maximum allocation
+The customer 2 request 3 0 22048 was denied because exceed its maximum allocation
+The customer 1 request 2 0 22048 was denied because exceed its maximum allocation
+The customer 4 request 0 0 22048 was denied because exceed its maximum allocation
+The customer 3 request 2 1 22048 was denied because exceed its maximum allocation
+MAXIMUM | ALLOCATION | NEED
+0 0 0 	|0 0 0 		   |0 0 0 
+0 0 0 	|0 0 0 		   |0 0 0 
+0 0 0 	|0 0 0 		   |0 0 0 
+0 0 0 	|0 0 0 		   |0 0 0 
+0 0 0 	|0 0 0 		   |0 0 0 
+0 0 0 	|0 0 0 		   |0 0 0 
+AVAILABLE 10  5  7 
+The customer 4 request 4 0 22048 was denied because exceed its maximum allocation
+The customer 1 request 1 0 22048 was denied because exceed its maximum allocation
+The customer 0 request 0 2 22048 was denied because exceed its maximum allocation
+The customer 2 request 0 1 22048 was denied because exceed its maximum allocation

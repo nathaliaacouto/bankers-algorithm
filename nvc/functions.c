@@ -19,8 +19,8 @@ int count_file_lines(FILE *file)
 }
 
 /* Get numbers from a file and
-stores then in a matrix */
-void get_max_resources(void) 
+stores then in a matrix 
+int** get_max_resources(void) 
 {
   FILE *costumers = fopen("customer.txt", "r");
   error_open_file(costumers);
@@ -45,52 +45,97 @@ void get_max_resources(void)
   fclose(test);
 
   fclose(costumers);
-}
+
+  return maximum;
+} */
 
 /* Reads lines in the file "commands.txt" */
-void read_commands(int count)
+char* read_commands(void)
 {
   FILE *com = fopen("commands.txt", "r");
   int a = 0;
-  while(a != count) {
+  while(a != number_of_commands) {
     fgets(read_com, 20, com);
-    printf("\nread_com: %s", read_com);
+    //printf("\nread_com: %s", read_com);
     verify_command(read_com);
     a++;
   }
-
+  count_commands = 0;
   fclose(com);
+
+  return read_com;
 }
 
-void verify_command(char* arr)
+/* See wich command was given and
+stores its value in the commands array */
+int verify_command(char* arr)
 {
   if(arr[0] == '*') {
-    printf("asterisco\n");
+    //printf("asterisco\n");
+    return SHOW_VALUES;
   }
   else if(arr[0] == 'R') {
     if(arr[1] == 'Q') {
-      printf("requesting resources\n");
+      //printf("requesting resources\n");
+      return REQUEST_RESOURCES;
     }
     else if(arr[1] == 'L') {
-      printf("releasing resources\n");
+      //printf("releasing resources\n");
+      return RELEASE_RESOURCES;
     }
   }
 }
 
-void request(char* r, int* av)
+/* Prints the commands array 
+void print_commands(void)
+{
+  for(int i = 0; i < number_of_commands; i++) {
+    printf("\ncomando %d: %d", i, commands_arr[i]);
+  }
+}
+*/
+/* Request Resources */
+int* request(void)
 {
   int a = 3;
-  int client = r[a] - '0';
-  int req[number_of_resources];
-
-  for(int i = 0; i < number_of_resources; i++) {
+  int client = read_com[3] - '0';
+  printf("%d", client);
+  int req[number_of_resources+1];
+  req[0] = client;
+  for(int i = 1; i < number_of_resources; i++) {
     a = a + 2; //jump space between numbers
-    req[i] = r[a] - '0';
+    req[i] = read_com[a] - '0';
+  }
+  return req;
+} 
+
+/*
+int system_state(int *w, int *f, int *ni, int *ai)
+{
+  for(int i = 0; i < number_of_commands; i++) {
+    w[i] = available[i];
+  }
+  for(int i = 0; i < number_of_costumers; i++) {
+    f[i] = FALSE;
   }
 
-  for(int i = 0; i < number_of_resources; i++) {
-    if(req[i] < av[i]) {
-      printf("ok");
+  for(int i = 0; i < number_of_commands; i++) { //problema: f tem mais q num de comandos
+    if(ni[i] <= w[i] && f[i] == FALSE) {
+      f[i] = TRUE;
+      for(int j = 0; j < number_of_commands; j++) {
+        w[j] = w[j] + ai[j];
+      }
     }
   }
-}
+  int count = 0;
+  for(int i = 0; i < number_of_costumers; i++) {
+    if(f[i] == TRUE) {
+      count++;
+    }
+  }
+
+  if(count == number_of_costumers) {
+    return SAFE_STATE;
+  }
+} */
+
