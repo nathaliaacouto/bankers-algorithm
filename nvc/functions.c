@@ -38,32 +38,59 @@ int verify_command(char* arr)
   }
 }
 
-/*
-int system_state(int *w, int *f, int *ni, int *ai)
+int system_state(int *av, int n[number_of_costumers][number_of_resources], int client, int al[number_of_costumers][number_of_resources])
 {
-  for(int i = 0; i < number_of_commands; i++) {
-    w[i] = available[i];
-  }
+  int work[number_of_resources];
+  int finish[number_of_costumers];
+  int exit = 0, count_true = 0;
+
+  /* Initialize the arrays - Begin */
+  for(int i = 0; i < number_of_resources; i++) { 
+    work[i] = av[i]; 
+  } 
   for(int i = 0; i < number_of_costumers; i++) {
-    f[i] = FALSE;
+    finish[i] = F;
+  }
+  /* Initialize the arrays - End */
+  int arr_finish[number_of_costumers];
+  int arr_work[number_of_resources];
+
+  for(int i = 0; i < number_of_costumers; i++) {
+    if(finish[i] == F) {
+      arr_finish[i] = 1;
+    }
+    else {
+      arr_finish[i] = 0;
+    }
+  } 
+  for(int i = 0; i < number_of_resources; i++) {
+    if(n[client][i] <= work[i]) {
+      arr_work[i] = 1;
+    }
+    else {
+      arr_work[i] = 0;
+    }
   }
 
-  for(int i = 0; i < number_of_commands; i++) { //problema: f tem mais q num de comandos
-    if(ni[i] <= w[i] && f[i] == FALSE) {
-      f[i] = TRUE;
-      for(int j = 0; j < number_of_commands; j++) {
-        w[j] = w[j] + ai[j];
+  for(int i = 0; i < number_of_resources; i++) { //i = 1
+    for(int j = 0; j < number_of_costumers; j++) { //j = 0
+      if(arr_work[i] == 1 && arr_finish[j] == 1) { 
+        work[i] = work[i] + al[client][i];
+        finish[j] = T;
       }
     }
   }
-  int count = 0;
-  for(int i = 0; i < number_of_costumers; i++) {
-    if(f[i] == TRUE) {
-      count++;
+
+  for(int j = 0; j < number_of_costumers; j++) {
+    if(finish[j] == T) {
+      count_true++;
     }
   }
 
-  if(count == number_of_costumers) {
+  if(count_true == number_of_costumers) {
+    printf("\nsafe state");
     return SAFE_STATE;
   }
-} */
+  printf("\nunsafe state!!!");
+  return UNSAFE_STATE;
+}

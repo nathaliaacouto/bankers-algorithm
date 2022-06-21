@@ -1,9 +1,9 @@
-Allocate to customer 0 the resources 0 2 1
-Allocate to customer 2 the resources 3 0 2
-Allocate to customer 1 the resources 2 0 0
-Allocate to customer 4 the resources 0 0 2
+Allocate to customer 0 the resources 0 2 1 
+Allocate to customer 2 the resources 3 0 2 
+Allocate to customer 1 the resources 2 0 0 
+Allocate to customer 4 the resources 0 0 2 
 Release from costumer 0 the resources 0 1 1 
-Allocate to customer 3 the resources 2 1 1
+Allocate to customer 3 the resources 2 1 1 
 MAXIMUM |ALLOCATION  |NEED
 7 5 3 	|0 1 0 		   |7 4 3 
 3 2 2 	|2 0 0 		   |1 2 2 
@@ -13,6 +13,6 @@ MAXIMUM |ALLOCATION  |NEED
 5 1 4 	|0 0 0 		   |5 1 4 
 AVAILABLE 3  3  2 
 The resources 3 3 2 are not enough to customer 4 request 4 0 0 
-Allocate to customer 1 the resources 1 0 2
-Allocate to customer 0 the resources 0 2 0
+Allocate to customer 1 the resources 1 0 2 
+The customer 0 request 0 2 0 was denied because result in an unsafe state
 The costumer 2 request 0 1 0 was denied because exceed its maximum allocation

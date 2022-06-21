@@ -2,10 +2,11 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define FALSE 1
-#define TRUE 0
+#define F 1 //False
+#define T 0 //True
 
-#define SAFE_STATE 10
+#define SAFE_STATE 0
+#define UNSAFE_STATE -1
 
 #define REQUEST_RESOURCES 1
 #define RELEASE_RESOURCES 2
@@ -22,9 +23,5 @@ char read_com[100];
 int next_command;
 
 int count_file_lines(FILE *file);
-int** get_max_resources(void);
-char* read_commands(void);
 int verify_command(char* arr);
-int* request(void);
-void print_commands(void);
-int system_state(int *w, int *f, int *ni, int *ai);
+int system_state(int *av, int n[number_of_costumers][number_of_resources], int client, int al[number_of_costumers][number_of_resources]);
