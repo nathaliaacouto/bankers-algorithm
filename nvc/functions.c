@@ -88,9 +88,7 @@ int system_state(int *av, int n[number_of_costumers][number_of_resources], int c
   }
 
   if(count_true == number_of_costumers) {
-    printf("\nsafe state");
     return SAFE_STATE;
   }
-  printf("\nunsafe state!!!");
   return UNSAFE_STATE;
 }

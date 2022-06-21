@@ -23,10 +23,6 @@ int main(int argc, char *argv[ ])
     count_av++;
   }
 
-  for(int i = 0; i < number_of_resources; i++) {
-    printf(" %d ", available[i]);
-  }
-
   /* Declarations - Begin */
   
   //Number of resources the costumers still need
