@@ -1,4 +1,4 @@
-# Banker’s Algorithm :computer:
+# Banker’s Algorithm :money_with_wings:
 This exercise is based in *Banker’s Algorithm* shown in page P-45 of the book *Operating System Concepts by Silberschatz, A.* \
 \
 The idea of this implementation is to simulate the Banker’s Algorithm which is one of the famous ways to **Avoid Deadlocks**. 
