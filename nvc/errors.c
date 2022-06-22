@@ -19,16 +19,3 @@ int error_file_empty(int count)
   }
   return 0;
 }
-
-int error_more_than_available(int* av, int** max)
-{
-  for(int i = 0; i < number_of_costumers; i++) {
-    for(int j = 0; i < number_of_resources; j++) {
-      if (max[i][j] > av[i]) {
-        printf("Error: Maximum number of resource is more than Available");
-        exit(0);
-      }
-    }
-  }
-  return 0;
-}

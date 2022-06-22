@@ -52,6 +52,7 @@ int system_state(int *av, int n[number_of_costumers][number_of_resources], int c
     finish[i] = F;
   }
   /* Initialize the arrays - End */
+  
   int arr_finish[number_of_costumers];
   int arr_work[number_of_resources];
 
@@ -72,8 +73,8 @@ int system_state(int *av, int n[number_of_costumers][number_of_resources], int c
     }
   }
 
-  for(int i = 0; i < number_of_resources; i++) { //i = 1
-    for(int j = 0; j < number_of_costumers; j++) { //j = 0
+  for(int i = 0; i < number_of_resources; i++) { 
+    for(int j = 0; j < number_of_costumers; j++) { 
       if(arr_work[i] == 1 && arr_finish[j] == 1) { 
         work[i] = work[i] + al[client][i];
         finish[j] = T;
